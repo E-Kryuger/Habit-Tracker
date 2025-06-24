@@ -1,8 +1,8 @@
-# version: '3.9'
+# version: '3.9'Add commentMore actions
 
 services:
   app:
-    build: .
+    image: $DOCKER_HUB_USERNAME/habit_app:${IMAGE_TAG}
     env_file:
       - .env
     command: >
@@ -19,7 +19,7 @@ services:
       - my_network
   nginx:
     build:
-      context: ./nginx
+      context: $DOCKER_HUB_USERNAME/habit_app_nginx:${IMAGE_TAG}
     ports:
       - "80:80"
     volumes:

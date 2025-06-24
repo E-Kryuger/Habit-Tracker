@@ -25,46 +25,78 @@
 ## Установка
 1. Клонируйте репозиторий:
    ```shell
-   https://github.com/E-Kryuger/Habit-Tracker.git
+   git clone https://github.com/E-Kryuger/Habit-Tracker.git
    ```
-2. Установите зависимости:
+2. Создание `.env` файла из `.env.sample`
+   - Копируйте файл
+      ```shell
+     cp .env.sample .env
+     ```
+   - Заполните файл данными
+        ```shell
+     nano .env
+     ```
+3. Запуск контейнеров
+    ```shell
+   docker-compose up -d --build
+   ```
+   Приложение будет доступно по адресу http://localhost.
+
+## CI/CD
+Проект настроен на автоматическое тестирование, сборку Docker-образов и деплой через GitHub Actions.
+
+#### Workflow включает этапы:
+Линтинг кода с использованием flake8
+2. Запуск тестов (SQLite)
+3. Сборка Docker-образов и публикация их на Docker Hub
+4. Деплой на удаленный сервер
+
+#### Настройка GitHub Secrets
+
+В репозитории необходимо добавить следующие секреты:
+
+- `DOCKER_HUB_USERNAME` — имя пользователя Docker Hub
+- `DOCKER_HUB_ACCESS_TOKEN` — токен доступа Docker Hub
+- `SSH_USER` — пользователь для SSH-подключения
+- `SERVER_IP` — IP-адрес сервера
+- `SSH_KEY` — приватный ключ для SSH-подключения
+- `SECRET_KEY` — секретный ключ Django
+
+## Настройка сервера
+
+1. Установите Docker: [инструкция с официального сайта](https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository)
+
+2. Установите Docker Compose:
+    ```shell
+   sudo apt install docker-compose
+   ```
+   
+3. Настройте файрвол:
+    ```shell
+   sudo ufw enable
+   sudo ufw allow 22/tcp
+   sudo ufw allow 80/tcp
+   sudo ufw allow 443/tcp
+   ```
+   
+4. Установите Git:
+    ```shell
+   sudo apt install git
+   ```
+5. Клонируйте репозиторий с GitHub:
+    ```shell
+   sudo mkdir -p var/www
+   cd var/www/
+   git clone https://github.com/E-Kryuger/Habit-Tracker.git
+   ```
+6. Создайте файл `.env`:
    ```shell
-   pip install -r requirements.txt
+   cd AtomsAPI
+   git checkout feature/feature2
+   sudo cp .env.sample .env
+   sudo nano .env
    ```
-
-## Подключение БД
-1. Создайте БД
-2. Создайте файл `.env` из файла `.env.sample`
-
-## Применение миграций
-```shell
-python manage.py migrate
-```
-
-## Наполнение проекта данными
-```shell
-python manage.py fill_project
-```
-
-## Запуск
-1. Запустите сервер Django:
-   ```shell
-   python manage.py runserver
+7. Запуск контейнеров
+    ```shell
+   docker-compose up -d --build
    ```
-2. Запустите брокер Redis:
-   ```shell
-   redis-server
-   ```
-3. Запустите Celery worker с планировщиком Celery beat:
-   ```shell
-   celery -A config worker --beat --scheduler django --loglevel=info
-   ```
-
-## Тестирование
-Создание текстового отчёта:
-```shell
-coverage run --source='.' --omit='*/migrations/*','*/management/*','*/__init__.py' manage.py test
-```
-```shell
-coverage report
-```
