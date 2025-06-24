@@ -82,6 +82,7 @@ jobs:
       - name: Deploy to server
         run: |
           ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} << 'EOF'
+          cd /var/www/habit_tracker
           export IMAGE_TAG=${{ github.sha }}
           export DOCKER_HUB_USERNAME=${{ secrets.DOCKER_HUB_USERNAME }}
           sudo docker-compose -f docker-compose.ci.yml pull
