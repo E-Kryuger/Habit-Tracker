@@ -4,5 +4,5 @@ from habits.models import Habit
 
 @admin.register(Habit)
 class HabitAdmin(admin.ModelAdmin):
-    list_display = ('id', 'builder', 'action')
+    list_display = ("id", "builder", "action")
     exclude = ()  # включение всех полей

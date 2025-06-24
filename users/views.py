@@ -7,13 +7,13 @@ from users.serializers import UserSerializer
 
 
 class UserCreateAPIView(generics.CreateAPIView):
-    """ Регистрация """
+    """Регистрация"""
 
     serializer_class = UserSerializer
 
 
 class UserUpdateAPIView(generics.UpdateAPIView):
-    """ Обновление профиля """
+    """Обновление профиля"""
 
     permission_classes = [IsAuthenticated, IsProfileOwner]
     serializer_class = UserSerializer
