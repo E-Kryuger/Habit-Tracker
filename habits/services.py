@@ -2,7 +2,7 @@ from django.utils.timezone import now
 
 
 def check_if_due_today(frequency, last_completed, current_date=None):
-    """ Проверка на необходимость выполнения действия сегодня """
+    """Проверка на необходимость выполнения действия сегодня"""
 
     if current_date is None:
         current_date = now().date()
