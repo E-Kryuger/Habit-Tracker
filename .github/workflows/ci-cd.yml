@@ -67,7 +67,7 @@ jobs:
         run: python manage.py migrate
 
       - name: Run tests
-        run: --source='.' --omit='*/migrations/*','*/management/*','*/__init__.py' manage.py test
+        run: python manage.py test
 
   build:
     needs: test
